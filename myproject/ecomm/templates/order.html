@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load cart %}
+{% block title %}order{% endblock title %}
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#S.No.</th>
+            <th scope="col">Image</th>
+            <th scope="col">Name of Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">price</th>
+            <th scope="col">Total Price</th>
+            <th scope="col">Date of Purchase</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for items in order %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td><img src="{{items.product.image.url}}"  alt="wrong path" width="100" height="100"></td>
+            <td>{{items.product}}</td>
+            <td>{{items.quantity}}</td>
+            <td>{{items.price}}</td>
+            <td>{{items.price|multiplyprice:items.quantity}}</td>
+            <td>{{items.date}}</td>
+            {% if items.status %}
+             <td><span class="badge bg-success">order placed<span></td>
+              {% else %}
+              <td><span class="badge bg-warning">pending<span></td>  
+
+              {% endif %} 
+        </tr>  
+    {% endfor %}  
+
+        
+    </tbody>
+    <tfoot>
+        <tr align = "center">
+            <th colspan =5 >Total Pay</th>
+            <th>{{tp}}</th>
+           
+        </tr>        
+    </tfoot>
+
+
+{% endblock content %}

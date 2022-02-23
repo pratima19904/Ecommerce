@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load cart %}
+{% block title %}
+Home
+{% endblock title %}
+{% block content %}
+<div class="container">
+
+  <div class="row mx-auto my-3">
+
+      <div class="col-lg-3">
+        {% comment %} <div class="list-group">
+          {% for category in cate  %}
+
+              <a href="/home/?category={{category.id}}" class="list-group-item list-group-item-action" aria-current="true">
+                {{category.name}}
+              </a>
+              
+          {% endfor %}
+         
+        </div> {% endcomment %}
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            choose category
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <div class="list-group">
+                {% for category in cate  %}
+                <li>
+      
+                    <a href="/home/?category={{category.id}}" class="list-group-item list-group-item-action" aria-current="true">
+                      {{category.name}}
+                    </a>
+                  </li>    
+                    
+                {% endfor %}
+               
+              </div> 
+            </li>
+            
+          </ul>
+        </div>
+
+
+
+
+      </div>
+
+      <div class="col-lg-9 mx-auto" id="products">
+      <div class="row my-3 mx-auto">
+      {% for img in path %}
+
+      <div class="card mx-auto my-3" style="width: 18rem;">
+        <img src="{{img.image.url}}" class="card-img-top" alt="...">
+        
+        <div class="card-body">
+          <h5 class="card-title">{{img.name}}</h5>
+          <p class="card-text">Rs.{{img.price}}</p>
+         
+          <div lass="card-footer row no-gutter">
+          {% if img|isexistincart:request.session.cart %}
+          <div class="row">
+
+            
+
+         <form action="/home/#{{img.id}}" method="post"class = "col-2">
+            {% csrf_token %}
+
+          <input type="text" name="cartid" value="{{img.id}}" hidden>
+          <input type="text" name="minus" value="true" hidden> 
+          <input type="submit" value="-" class="btn-block btn-dark">
+          
+          </form> 
+          <div class="text-center col">
+            {{img|cartquant:request.session.cart}}
+          </div> 
+          <form action="/home/#{{img.id}}" method="post"class = "col-2">
+            {% csrf_token %}
+
+          
+          <input type="text" name="cartid" value="{{img.id}}" hidden> 
+          <input type="submit" value="+" class="btn-block btn-dark">
+          
+          </form> 
+          {% else %} 
+          <form action="/home/#{{img.id}}" method="post"class = "btn-block">
+            {% csrf_token %}
+
+          
+          <input type="text" name="cartid" value="{{img.id}}" hidden> 
+          <input type="submit" value="Add to Cart" class="btn-block btn-primary form-control">
+          
+          </form> 
+          {% endif %}
+        </div>
+      </div>
+    </div>
+        
+      
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+      
+    </div>
+
+  </div>
+  <script>
+    if (window.history.replaceState){
+      window.history.replaceState(null,null,window.location.href);
+    }
+  </script>
+
+
+{% endblock content %}

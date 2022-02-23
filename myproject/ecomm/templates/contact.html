@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+contact
+
+{% endblock title %}
+
+
+{% block content %}
+{% for i in fetch_img %}
+<img src="{{i.image.url}}" alt="wrong">
+
+
+{% endfor %}
+       
+
+{% endblock content %}
+
+
+
